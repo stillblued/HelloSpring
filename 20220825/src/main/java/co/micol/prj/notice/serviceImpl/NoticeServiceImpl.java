@@ -2,6 +2,8 @@ package co.micol.prj.notice.serviceImpl;
 
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.micol.prj.notice.map.NoticeMapper;
@@ -38,9 +40,14 @@ public class NoticeServiceImpl implements NoticeService{
 	public int noticeDelete(NoticeVO vo) {
 		return map.noticeDelete(vo);
 	}
+	
+	@Override
+	public int noticeHitUpdate(NoticeVO vo) {
+		return map.noticeHitUpdate(vo);
+	}
 
 	@Override
-	public List<NoticeVO> noticeSearch(String key, String val) {
+	public List<NoticeVO> noticeSearch(@Param(value = "key") String key, @Param(value = "val")String val) {
 		return map.noticeSearch(key, val);
 	}
 

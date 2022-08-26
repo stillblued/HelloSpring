@@ -5,14 +5,15 @@ import java.io.IOException;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,14 +29,15 @@ public class NoticeController {
 	@Autowired
 	private ServletContext servletContext;
 	
-	@RequestMapping("/noticeSelect.do")
-	public String noticeSelect(Model model, NoticeVO vo) {
+	
+	@PostMapping("/noticeSelect.do")
+	public String noticeSelect(Model model, NoticeVO vo, HttpServletRequest req) {
 		
-		vo.setNoticeId(26); //강제로 26번글 선택
-		
+		ns.noticeHitUpdate(vo);
 		model.addAttribute("n", ns.noticeSelect(vo));
 		return "notice/noticeSelect";
 	}
+	
 	
 	@GetMapping("/noticeList.do")
 	public String noticeList(Model model) {
@@ -43,7 +45,6 @@ public class NoticeController {
 		model.addAttribute("notices", ns.noticeList());
 		return "notice/noticeList";
 	}
-	
 	
 	@PostMapping("/noticeInsert.do")
 	public String noticeInsert(NoticeVO vo, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
@@ -64,6 +65,21 @@ public class NoticeController {
 		return "redirect:noticeList.do";
 	}
 	
+	
+	@GetMapping("/noticeForm.do")
+	public String noticeForm() {
+		
+		return "notice/noticeForm";
+
+	}
+	
+	@GetMapping("/noticeUpForm.do")
+	public String noticeUpForm() {
+		
+		return "notice/noticeUpdate";
+	}
+	
+	
 	@RequestMapping("/noticeUpdate.do")
 	public String noticeUpdate(NoticeVO vo) {
 		vo.setNoticeWriter("운영자");
@@ -75,21 +91,13 @@ public class NoticeController {
 	
 	
 	@RequestMapping("/noticeSearch.do")
-	public String noticeSearch(String key, String val, Model model) { //form으로 할떄 리퀘스트파람 작성할것
+	public String noticeSearch(@Param(value = "key") String key, @Param(value = "val")String val, Model model) { 
 		
-		key = "1";
-		val = "으아악";
 		model.addAttribute("notices", ns.noticeSearch(key, val));
 		return "notice/noticeSearch";
 	}
 	
-	@GetMapping("/noticeForm.do")
-	public String noticeForm() {
-		
-		return "notice/noticeForm";
-	}
 
-	
 	@RequestMapping(value = "/ajaxNoticeSelect.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxNoticeSelect(HttpServletResponse res) {
@@ -101,5 +109,10 @@ public class NoticeController {
 	public String ajaxTest() {
 		return "notice/ajaxTest";
 	}
+	
+	
+	
+	
+	
 	
 }

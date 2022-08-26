@@ -12,5 +12,8 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
+
+<a href = "noticeList.do">공지사항 목록</a>
+
 </body>
 </html>
