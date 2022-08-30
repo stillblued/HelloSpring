@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC 
+"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<definition name="myApp"
+		template="/WEB-INF/views/layout/layout.jsp">
+		<put-attribute name="title" value="my Spring web" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/layout/header.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/layout/menu.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
+	<definition name="*/*" extends="myApp">
+		<put-attribute name="body"
+			value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+
+	<definition name="notiles"
+		template="/WEB-INF/views/layout/layoutNo.jsp">
+		<put-attribute name="title" value="my Spring web" />
+		<put-attribute name="body" value="" />
+	</definition>
+	<definition name="notiles/*/*" extends="notiles">
+		<put-attribute name="body"
+			value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+
+
+<definition name="user.page"
+		template="/WEB-INF/views/layout/userLayout.jsp">
+		<put-attribute name="title" value="my Shop" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/layout/userHeader.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/layout/userFooter.jsp" />
+	</definition>
+	<definition name="user/*/*" extends="user.page">
+		<put-attribute name="body"
+			value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+
+
+</tiles-definitions>
+
