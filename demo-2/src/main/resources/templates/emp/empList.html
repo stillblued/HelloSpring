@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+  .green { background-color: yellowgreen; }
+</style>
+</head>
+<body>
+ <article layout:fragment="content">
+ [[${empList[0].firstName}]]
+ <hr>
+ html주석: <!-- [[${empList[0].firstName}]] -->
+ <hr>
+ 파서주석:<!--/* [[${empList[0].firstName}]] */-->
+ <hr>
+ 프로토타입주석:<!--/*/ [[${empList[0].firstName}]] /*/-->
+ <hr>
+	전체사원 [[ ${#lists.size(empList)} ]] 명
+	<table>
+		<thead>
+			<tr>
+				<th>NO</th>
+				<th>사번</th>
+				<th>이름</th>
+				<th>급여</th>
+				<th>입사일</th>
+				<th>부서</th>
+				<th>수정</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="emp,st : ${empList}" >
+				<td th:text="${st.count}">1</td>
+				<td><a th:href="@{updEmp1(employeeId=${emp.employeeId}, firstName=${emp.firstName})}" th:text="${emp.employeeId}">100</a></td>
+				<td><a th:href="@{updEmp2/{id}/{fname}(id=${emp.employeeId}, fname=${emp.firstName})}" th:text="${emp.employeeId}">100</a></td>
+				<td th:text="${emp.firstName}">김길동</td>
+				<td th:text="${emp.salary}"><span th:if="${emp.salary}>5000">3,000</span></td>
+				<td th:text="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}">2020/01/01</td>
+				<td th:text="${emp.departmentId}">50</td>
+				<td>
+			<!--/*/ 		<div th:switch="${emp.departmentId}">
+					  <p th:case="10">administrator</p>
+					  <p th:case="20">manager</p>
+					  <p th:case="*">other</p>
+					</div> /*/-->
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</article>	
+</body>
+</html>
