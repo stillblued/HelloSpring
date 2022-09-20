@@ -2,6 +2,7 @@ package co.micol.prj.notice.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +43,9 @@ public class NoticeController {
 	
 	
 	@GetMapping("/noticeList.do")
-	public String noticeList(Model model) {
+	public String noticeList(Model model, Principal principal, @AuthenticationPrincipal UserDetails user) {
 		
+		System.out.println(principal.getName());
 		model.addAttribute("notices", ns.noticeList());
 		return "notice/noticeList";
 	}

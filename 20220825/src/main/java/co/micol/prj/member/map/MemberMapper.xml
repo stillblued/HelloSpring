@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.micol.prj.member.map.MemberMapper">
+
+
+<select id="memberSelectList" resultType="co.micol.prj.member.vo.MemberVO">
+	SELECT * FROM MEMBER
+</select>
+
+<select id="memberSelect" parameterType="co.micol.prj.member.vo.MemberVO" resultType="co.micol.prj.member.vo.MemberVO">
+	SELECT member_id
+			,member_pwd
+			,member_name
+			,'ROLE_' || member_Author as memberAuthor
+	FROM MEMBER
+	WHERE MEMBER_ID = #{memberId}
+	<!-- <if test="memberPwd != null">
+		AND MEMBER_PWD = #{memberPwd}
+	</if> -->
+</select>
+
+<insert id="memberInsert" parameterType="co.micol.prj.member.vo.MemberVO">
+	INSERT INTO MEMBER 
+	VALUES (#{memberId}
+			, #{memberPwd}
+			, #{memberName}
+			, 'USER')
+</insert>
+
+<update id="memberUpdate" parameterType="co.micol.prj.member.vo.MemberVO">
+	UPDATE MEMBER
+	SET MEMBER_PWD = #{memberPwd},
+		MEMBER_NAME = #{memberName},
+		MEMBER_AUTHOR = #{memberAuthor}
+	WHERE MEMBER_ID = #{memberId}
+</update>
+
+<delete id="memberDelete" parameterType="co.micol.prj.member.vo.MemberVO">
+	DELETE FROM MEMBER 
+	WHERE MEMBER_ID = #{memberId}
+</delete>
+
+
+</mapper>
